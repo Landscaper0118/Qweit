@@ -1,3 +1,4 @@
+import random
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
@@ -8,9 +9,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+#空欄時のランダムネーム
+GroupA = ["はやぶさ", "孤高の", "ワールド", "異次元の", "忘却の", "ダーク", "プラチナ", "21世紀", "大御所", "流れる", "真夏の", "天才", "レッド", "ブルー", "イエロー", "北国の", "南国の",]
+GroupB = ["カレー", "太郎", "花子", "天使", "大魔神", "社長", "工場長", "メガネ", "最先端", "パス", "村長", "一般人", "先生", "回避魚", "堕天使", "ステーキ", "大冒険", "野口英世",]
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=False, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     username = db.Column(db.String(80), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
@@ -30,7 +35,11 @@ def register():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
-        username = request.form.get("username")
+        username = request.form.get("username","").strip()
+
+        #usernameが空欄ならランダムにリストから生成する
+        if not username: 
+            username = f"{random.choice(GroupA)}{random.choice(GroupB)}"
 
         new_user = User(
             email=email, 
@@ -42,7 +51,7 @@ def register():
 
         db.session.commit()
 
-        return f"データベースへの登録確認。登録情報: {username}, {email}, {password}"
+        return render_template("register_complete.html")
     
     return render_template("register.html")
 
