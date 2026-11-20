@@ -55,5 +55,21 @@ def register():
     
     return render_template("register.html")
 
+#ログイン画面
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = request.form.get("email", "").strip()
+        password = request.form.get("password", "")
+
+        user = User.query.filter_by(email=email, password=password).first()
+
+        if user:
+            return f"ログインしました。ようこそ{user.username}さん"
+        else:
+            return render_template("login.html", error = "メールアドレスまたはパスワードが正しくありません。")
+
+    return render_template("login.html")    
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
