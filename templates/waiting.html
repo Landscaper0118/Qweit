@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Qweit(クウェイト)</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>質問順番待ちリスト</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>名前</th>
+                <th>質問事項</th>
+                <th>質問内容</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for q in question %}
+            <tr>
+                <td>{{ q.author.username }}</td>
+                <td>{{ q.category }}</td>
+                <td>{{ q.text }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" style="text-align: center;">現在、質問待ちの人はいません。</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="margin-top: 24px;">
+        <a href="/question">質問を登録する</a> ／
+        <a href="/">ホームへ戻る</a>
+    </div>
+</body>
+</html>

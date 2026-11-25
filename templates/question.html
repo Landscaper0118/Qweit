@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Qweit(クウェイト)</title>
+        <style>
+               * {
+           box-sizing: border-box;
+       }
+
+       .form-group {
+           margin-bottom: 15px;
+       }
+
+       .form-group label {
+           display: inline-block;
+           width: 120px;
+           text-align: left;
+           margin-right: 20px;
+       }
+       
+       .custom-btn {
+            display: inline-block;
+            padding: 5px 20px;
+            background-color: #dddddd;
+            color: #333333 !important; /* 文字色が勝手に変わるのを防ぐ */
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: normal; /* 文字の高さを揃える */
+            vertical-align: middle; /* 高さを綺麗に揃える */
+        }
+        .custom-btn:hover {
+            background-color: #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <p><strong>{{ session.get("username") }}</strong>さん</p>
+<form method="POST" action="/question">
+    <div class="form-group">
+        <label for="question_category" style="margin-top: 10px;">質問項目</label>
+        <select id="question_category" name="question_category" required>
+            <option value="linux">Linux</option>
+            <option value="shellscript">Shellscript</option>
+            <option value="sql">SQL</option>
+            <option value="network">Network</option>
+        </select>
+    </div>
+
+    <div class="form-group" style="margin-top: 20px;">
+        <label for="question_text" style="vertical-align: top;">質問内容</label>
+        <textarea id="question_text" name="question_text" rows="4" cols="50" placeholder="lsコマンドについて" required></textarea>
+    </div>
+
+        <div style="margin-top: 25px; margin-left: 60px;">
+            <!-- 戻るボタン -->
+            <a href="{{ url_for('home') }}" class="custom-btn">戻る</a>
+            
+            <!-- エントリーボタン -->
+            <button type="submit" class="custom-btn" style="margin-left: 20px;">エントリー</button>
+        </div>
+</body>
+</html>
